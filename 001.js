@@ -9,6 +9,15 @@ let closeBtn = document.querySelector(".btn-close");
 adReviewBtn.addEventListener("click", () => {
   modal.style.display = "block";
 });
+
+/////////this is count Of votes Area
+let StBar5 = document.querySelector(".s5");
+let StBar4 = document.querySelector(".s4");
+let StBar3 = document.querySelector(".s3");
+let StBar2 = document.querySelector(".s2");
+let StBar1 = document.querySelector(".s1");
+let StBar = [StBar1, StBar2, StBar3, StBar4, StBar5];
+//////////////
 //cancel modal
 function CloseModal() {
   modal.style.display = "none";
@@ -61,13 +70,7 @@ starCount.map((e) => {
     }
   });
 });
-/////////this is count Of votes Area
-let StBar5 = document.querySelector(".s5");
-let StBar4 = document.querySelector(".s4");
-let StBar3 = document.querySelector(".s3");
-let StBar2 = document.querySelector(".s2");
-let StBar1 = document.querySelector(".s1");
-let StBar = [StBar1, StBar2, StBar3, StBar4, StBar5];
+
 /////////add vote
 //regex name
 var regName = /^[a-zA-Z]+/;
@@ -108,7 +111,7 @@ subBtn.addEventListener("click", () => {
     fname.style.color = "red";
   }
   FillStars();
-  selectedBar = 0;
+  ValHandler();
 });
 ///////Main rating
 let overallPrint = document.querySelector(".overall");
@@ -123,5 +126,26 @@ function FillStars() {
   for (var x = 0; x < stLength; x++) {
     mainBar[x].classList.remove("bi-star");
     mainBar[x].classList.add("bi-star-fill");
+  }
+  selectedBar = 0;
+}
+///////////
+//progress bars handler
+function ValHandler() {
+  let proBar = StBar.map((e) => {
+    return parseInt(e.textContent);
+  }).reverse();
+
+  let maxVotes = Math.max(...proBar);
+  ///
+  const progressBars = [...document.getElementsByClassName("progress-bar")];
+  ////
+  for (var x = 0; x < progressBars.length; x++) {
+    if (proBar.indexOf(maxVotes) == x) {
+      progressBars[x].style.width = "100%";
+    } else {
+      let perCentWidth = (proBar[x] / maxVotes) * 100;
+      progressBars[x].style.width = `${perCentWidth}%`;
+    }
   }
 }
